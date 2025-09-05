@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Mini Prueba SocketIO</title>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Mini Prueba – Flask + SocketIO</h1>
+  <input id="name" placeholder="Tu nombre" />
+  <button onclick="sendClick()">Haz clic</button>
+  <pre id="log"></pre>
+
+  <script>
+    const socket = io();
+    const log = document.getElementById('log');
+    const addLog = (m) => log.textContent += m + "\n";
+
+    socket.on('connect', () => addLog('✅ Conectado'));
+    socket.on('server_msg', data => addLog(data.msg));
+
+    function sendClick() {
+      const name = document.getElementById('name').value || 'Anon';
+      socket.emit('click_button', { name });
+    }
+  </script>
+</body>
+</html>
